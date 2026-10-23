@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BlueReef Fresh</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, Segoe UI, sans-serif;
+            background: #7fd6ff;
+            color: #12324a;
+        }
+
+        #c {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            padding: 10px 14px;
+            background: #0a4f80;
+            color: #fff;
+        }
+
+        header b {
+            font-size: 18px;
+            white-space: nowrap;
+        }
+
+        header input {
+            flex: 1;
+            min-width: 0;
+            padding: 9px 12px;
+            border: 0;
+            border-radius: 6px;
+        }
+
+        button {
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .btn {
+            background: #ff8a2b;
+            color: #fff;
+            border: 0;
+            border-radius: 6px;
+            padding: 9px 14px;
+            font-weight: 700;
+        }
+
+        .g {
+            background: #16a06b;
+        }
+
+        .x {
+            background: #c0392b;
+        }
+
+        #hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 60px 20px 0;
+        }
+
+        #hero h1 {
+            font-size: clamp(32px, 7vw, 66px);
+            margin: 0;
+            color: #06365f;
+        }
+
+        #hero p {
+            color: #0a4f80;
+            font-size: 18px;
+        }
+
+        main {
+            position: relative;
+            z-index: 2;
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 30px 14px 120px;
+        }
+
+        #ban {
+            background: #ffe08a;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .chip {
+            border: 0;
+            background: #fff;
+            border-radius: 20px;
+            padding: 7px 15px;
+            margin: 0 6px 8px 0;
+        }
+
+        .chip.on {
+            background: #0a4f80;
+            color: #fff;
+        }
+
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 14px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, .18);
+        }
+
+        .card h4 {
+            margin: 6px 0;
+        }
+
+        .im {
+            font-size: 62px;
+            height: 84px;
+        }
+
+        .im img {
+            max-width: 100%;
+            max-height: 84px;
+        }
+
+        s {
+            color: #888;
+            margin-left: 6px;
+        }
+
+        .off {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: #16a06b;
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-style: normal;
+        }
+
+        .qty {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            align-items: center;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        .qty button {
+            width: 30px;
+            height: 30px;
+            border: 0;
+            border-radius: 50%;
+            background: #0a4f80;
+            color: #fff;
+        }
+
+        .card .btn {
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        .ov {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .55);
+            z-index: 50;
+            display: none;
+            justify-content: flex-end;
+        }
+
+        .ov.show {
+            display: flex;
+        }
+
+        .pn {
+            background: #fff;
+            width: min(440px, 100%);
+            height: 100%;
+            overflow: auto;
+            padding: 18px;
+        }
+
+        .pn.w {
+            width: min(900px, 100%);
+        }
+
+        .pn input,
+        .pn select,
+        .pn textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 4px 0 8px;
+            border: 1px solid #bcd;
+            border-radius: 6px;
+        }
+
+        .row {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding: 7px 0;
+        }
+
+        .row span {
+            flex: 1;
+        }
+
+        .pr {
+            display: grid;
+            grid-template-columns: 50px 1.4fr 70px 70px 1fr 1.2fr 34px;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+
+        .pr input {
+            margin: 0;
+            padding: 5px;
+        }
+
+        h3 {
+            margin: 14px 0 6px;
+        }
+
+        .note {
+            font-size: 12px;
+            color: #556;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="c"></canvas>
+
+    <header>
+        <b id="nm">🐟 BlueReef</b>
+
+        <input
+            id="q"
+            placeholder="Search groceries…"
+            oninput="grid()"
+        >
+
+        <button class="btn" onclick="open1('cartP');drawCart()">
+            🛒 <span id="cn">0</span>
+        </button>
+
+        <button class="btn g" onclick="adminOpen()">
+            Admin
+        </button>
+    </header>
+
+    <section id="hero">
+        <h1 id="h1">Welcome to BlueReef</h1>
+        <p>
+            Fresh groceries from the deep end of freshness.
+            Scroll to dive in ⬇
+        </p>
+    </section>
+
+    <main>
+        <div id="ban"></div>
+        <div id="cats"></div>
+        <div id="grid"></div>
+    </main>
+
+    <div class="ov" id="cartP">
+        <div class="pn">
+            <button class="btn x" onclick="close1('cartP')">
+                Close ✕
+            </button>
+
+            <h3>Your cart</h3>
+            <div id="ci"></div>
+        </div>
+    </div>
+
+    <div class="ov" id="coP">
+        <div class="pn">
+            <button class="btn x" onclick="close1('coP')">
+                Close ✕
+            </button>
+
+            <h3>Checkout</h3>
+
+            <input id="cname" placeholder="Full name">
+            <input id="cph" placeholder="Phone (10 digits)">
+
+            <textarea
+                id="cad"
+                rows="3"
+                placeholder="Delivery address"
+            ></textarea>
+
+            <label>
+                <input
+                    type="radio"
+                    name="pm"
+                    value="cod"
+                    checked
+                    style="width:auto"
+                >
+                Cash on delivery
+            </label>
+
+            <br>
+
+            <label>
+                <input
+                    type="radio"
+                    name="pm"
+                    value="cf"
+                    style="width:auto"
+                >
+                Pay online (Cashfree – UPI / cards / netbanking)
+            </label>
+
+            <h3 id="cot"></h3>
+
+            <button
+                class="btn g"
+                style="width:100%"
+                onclick="place()"
+            >
+                Place order
+            </button>
+        </div>
+    </div>
+
+    <div class="ov" id="admP">
+        <div class="pn w" id="adm"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        var ADM = "ZXNod2FyYW52MTU5QGdtYWlsLmNvbXw3Mzk3NTg2NjEw";
+        var FB = ""; // Optional Firebase Realtime Database URL
+
+        var $ = function (i) {
+            return document.getElementById(i);
+        };
+
+        var m = function (n) {
+            return "₹" + Math.round(n);
+        };
+
+        var seed = [
+            ["Fruits", "🍎", "Apples 1kg", 99, 120],
+            ["Fruits", "🍌", "Bananas 1 dozen", 50, 60],
+            ["Fruits", "🍇", "Grapes 500g", 90, 110],
+            ["Fruits", "🥭", "Mangoes 1kg", 150, 180],
+            ["Vegetables", "🥕", "Carrots 1kg", 60, 70],
+            ["Vegetables", "🍅", "Tomatoes 1kg", 40, 50],
+            ["Vegetables", "🥦", "Broccoli", 70, 85],
+            ["Vegetables", "🌽", "Sweet corn", 25, 30],
+            ["Dairy & Bakery", "🥛", "Fresh milk 500ml", 32, 32],
+            ["Dairy & Bakery", "🧀", "Cheese 200g", 110, 130],
+            ["Dairy & Bakery", "🍞", "Bread", 45, 50],
+            ["Dairy & Bakery", "🥚", "Eggs 1 dozen", 78, 90]
+        ];
+
+        var S = JSON.parse(localStorage.bw || "null") || {
+            name: "BlueReef Fresh",
+            banner: "🎉 Opening offer: use code FRESH10 for 10% off!",
+            fee: 30,
+            free: 499,
+            coupon: "FRESH10",
+            cpct: 10,
+            pay: {
+                id: "",
+                mode: "sandbox",
+                fn: "/.netlify/functions/cf",
+                link: ""
+            },
+            products: seed.map(function (a, i) {
+                return {
+                    id: i + 1,
+                    cat: a[0],
+                    emoji: a[1],
+                    name: a[2],
+                    price: a[3],
+                    mrp: a[4],
+                    img: ""
+                };
+            })
+        };
+
+        var cart = JSON.parse(localStorage.bc || "{}");
+        var cat = "All";
+        var cOn = false;
+        var adm = false;
+
+        function store() {
+            localStorage.bw = JSON.stringify(S);
+        }
+
+        function site() {
+            $("nm").textContent = "🐟 " + S.name;
+            $("h1").textContent = "Welcome to " + S.name;
+            $("ban").innerHTML = S.banner;
+            $("ban").style.display = S.banner ? "block" : "none";
+            document.title = S.name;
+        }
+
+        function open1(i) {
+            $(i).classList.add("show");
+        }
+
+        function close1(i) {
+            $(i).classList.remove("show");
+        }
+
+        function grid() {
+            var q = $("q").value.toLowerCase();
+
+            var cs = ["All"].concat(
+                S.products
+                    .map(function (p) {
+                        return p.cat;
+                    })
+                    .filter(function (v, i, a) {
+                        return a.indexOf(v) == i;
+                    })
+            );
+
+            $("cats").innerHTML = cs.map(function (c) {
+                return '<button class="chip ' +
+                    (c == cat ? "on" : "") +
+                    '" onclick="cat=\'' +
+                    c.replace(/'/g, "") +
+                    '\';grid()">' + c + "</button>";
+            }).join("");
+
+            $("grid").innerHTML = S.products
+                .filter(function (p) {
+                    return (cat == "All" || p.cat == cat) &&
+                        p.name.toLowerCase().indexOf(q) > -1;
+                })
+                .map(function (p) {
+                    var n = cart[p.id] || 0;
+                    var o = p.mrp > p.price
+                        ? Math.round(100 - p.price / p.mrp * 100)
+                        : 0;
+
+                    return '<div class="card">' +
+                        (o ? '<i class="off">' + o + '% off</i>' : "") +
+                        '<div class="im">' +
+                        (p.img ? '<img src="' + p.img + '">' : p.emoji) +
+                        "</div>" +
+                        "<h4>" + p.name + "</h4>" +
+                        "<div><b>" + m(p.price) + "</b>" +
+                        (o ? "<s>" + m(p.mrp) + "</s>" : "") +
+                        "</div>" +
+                        (n
+                            ? '<div class="qty">' +
+                              '<button onclick="chg(' + p.id + ',-1)">−</button>' +
+                              n +
+                              '<button onclick="chg(' + p.id + ',1)">+</button>' +
+                              "</div>"
+                            : '<button class="btn" onclick="chg(' + p.id + ',1)">Add to cart</button>') +
+                        "</div>";
+                }).join("") || "<p>No products found.</p>";
+
+            $("cn").textContent = Object.keys(cart).reduce(function (a, k) {
+                return a + cart[k];
+            }, 0);
+        }
+
+        function chg(id, d) {
+            cart[id] = (cart[id] || 0) + d;
+
+            if (cart[id] <= 0) {
+                delete cart[id];
+            }
+
+            localStorage.bc = JSON.stringify(cart);
+            grid();
+            drawCart();
+        }
+
+        function tot() {
+            var s = 0;
+
+            S.products.forEach(function (p) {
+                s += (cart[p.id] || 0) * p.price;
+            });
+
+            var d = cOn ? Math.round(s * S.cpct / 100) : 0;
+            var f = s && s - d < S.free ? +S.fee : 0;
+
+            return {
+                s: s,
+                d: d,
+                f: f,
+                t: s - d + f
+            };
+        }
+
+        function drawCart() {
+            var T = tot();
+
+            var h = S.products
+                .filter(function (p) {
+                    return cart[p.id];
+                })
+                .map(function (p) {
+                    return '<div class="row">' +
+                        "<span>" + p.emoji + " " + p.name +
+                        "<br><small>" + m(p.price) + " each</small></span>" +
+                        '<div class="qty">' +
+                        '<button onclick="chg(' + p.id + ',-1)">−</button>' +
+                        cart[p.id] +
+                        '<button onclick="chg(' + p.id + ',1)">+</button>' +
+                        "</div>" +
+                        "<b>" + m(p.price * cart[p.id]) + "</b>" +
+                        "</div>";
+                }).join("");
+
+            $("ci").innerHTML = h
+                ? h +
+                  '<input id="cp" placeholder="Coupon code">' +
+                  '<button class="btn" onclick="cOn=$(\'cp\').value.trim().toUpperCase()==S.coupon.toUpperCase();if(!cOn)alert(\'Invalid coupon\');drawCart()">Apply</button>' +
+                  "<p>Subtotal: " + m(T.s) +
+                  "<br>Discount: −" + m(T.d) +
+                  "<br>Delivery: " + (T.f ? m(T.f) : "FREE") +
+                  '<br><b style="font-size:20px">Total: ' + m(T.t) + "</b></p>" +
+                  '<button class="btn g" style="width:100%" onclick="close1(\'cartP\');$(\'cot\').textContent=\'Total: \'+m(tot().t);open1(\'coP\')">Checkout</button>'
+                : "<p>Your cart is empty.</p>";
+        }
+
+        function orders() {
+            return JSON.parse(localStorage.bo || "[]");
+        }
+
+        function saveO(o) {
+            var a = orders().filter(function (x) {
+                return x.id != o.id;
+            });
+
+            a.unshift(o);
+            localStorage.bo = JSON.stringify(a);
+
+            if (FB) {
+                fetch(FB + "/orders/" + o.id + ".json", {
+                    method: "PUT",
+                    body: JSON.stringify(o)
+                }).catch(function () {});
+            }
+        }
+
+        function done(o, msg) {
+            saveO(o);
+            cart = {};
+            localStorage.bc = "{}";
+            grid();
+            close1("coP");
+            alert(msg + "\nOrder ID: " + o.id);
+        }
+
+        function place() {
+            var n = $("cname").value.trim();
+            var p = $("cph").value.trim();
+            var a = $("cad").value.trim();
+
+            if (!n || !/^\d{10}$/.test(p) || !a) {
+                return alert("Please enter name, 10-digit phone and address.");
+            }
+
+            var T = tot();
+            if (!T.s) return;
+
+            var pm = document.querySelector('[name="pm"]:checked').value;
+
+            var o = {
+                id: "BR" + Date.now(),
+                name: n,
+                phone: p,
+                addr: a,
+                total: T.t,
+                items: S.products
+                    .filter(function (x) {
+                        return cart[x.id];
+                    })
+                    .map(function (x) {
+                        return x.name + " x" + cart[x.id];
+                    }).join(", "),
+                method: pm,
+                status: pm == "cod"
+                    ? "COD – pay on delivery"
+                    : "Payment pending"
+            };
+
+            if (pm == "cod") {
+                return done(o, "✅ Order placed! Pay cash on delivery.");
+            }
+
+            if (S.pay.link) {
+                window.open(S.pay.link, "_blank");
+                o.status = "Paid via Cashfree link – verify in dashboard";
+                return done(o, "Complete payment of " + m(T.t) +
+                    " on the Cashfree page that opened.");
+            }
+
+            saveO(o);
+
+            fetch(S.pay.fn, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    orderId: o.id,
+                    amount: T.t.toFixed(2),
+                    name: n,
+                    phone: p,
+                    returnUrl: location.origin + location.pathname +
+                        "?order_id={order_id}"
+                })
+            })
+            .then(function (r) {
+                return r.json();
+            })
+            .then(function (d) {
+                if (!d.payment_session_id) throw d;
+
+                var s = document.createElement("script");
+                s.src = "https://sdk.cashfree.com/js/v3/cashfree.js";
+
+                s.onload = function () {
+                    Cashfree({
+                        mode: S.pay.mode
+                    }).checkout({
+                        paymentSessionId: d.payment_session_id,
+                        redirectTarget: "_self"
+                    });
+                };
+
+                document.head.appendChild(s);
+            })
+            .catch(function (e) {
+                alert("Online payment is not set up yet (" +
+                    (e && e.message || "server function not reachable") +
+                    "). Choose Cash on delivery or ask the store admin.");
+            });
+        }
+
+        (function () {
+            var id = new URLSearchParams(location.search).get("order_id");
+            if (!id) return;
+
+            fetch(S.pay.fn + "?order_id=" + id)
+                .then(function (r) {
+                    return r.json();
+                })
+                .then(function (d) {
+                    var o = orders().filter(function (x) {
+                        return x.id == id;
+                    })[0];
+
+                    if (o) {
+                        o.status = d.status == "PAID"
+                            ? "Paid online ✅"
+                            : "Payment " + d.status;
+                        saveO(o);
+                    }
+
+                    if (d.status == "PAID") {
+                        cart = {};
+                        localStorage.bc = "{}";
+                        grid();
+                    }
+
+                    alert(d.status == "PAID"
+                        ? "✅ Payment successful! Order " + id + " confirmed."
+                        : "Payment not completed (" + d.status + ").");
+
+                    history.replaceState(null, "", location.pathname);
+                })
+                .catch(function () {});
+        })();
+
+        // ---------- Admin ----------
+
+        function adminOpen() {
+            open1("admP");
+            adm ? panel() : login();
+        }
+
+        function login() {
+            var has = 1;
+
+            $("adm").innerHTML =
+                '<button class="btn x" onclick="close1(\'admP\')">Close ✕</button>' +
+                "<h3>" + (has ? "Admin login" : "Create admin account") + "</h3>" +
+                '<input id="ae" type="email" placeholder="Admin email">' +
+                '<input id="ap" type="password" placeholder="Password">' +
+                '<button class="btn g" onclick="doLogin()">' +
+                (has ? "Login" : "Create & login") + "</button>";
+        }
+
+        function doLogin() {
+            var k = btoa(
+                $("ae").value.trim().toLowerCase() + "|" + $("ap").value
+            );
+
+            if (!$("ae").value || $("ap").value.length < 6) {
+                return alert("Enter an email and a password of 6+ characters.");
+            }
+
+            if (k != ADM) {
+                return alert("Wrong email or password");
+            }
+
+            adm = true;
+            panel();
+        }
+
+        function f(l, k, t) {
+            return l + '<input value="' + (S[k] == null ? "" : S[k]) +
+                '" oninput="S.' + k + '=this.value">';
+        }
+
+        function panel() {
+            var P = S.pay;
+
+            var h =
+                '<button class="btn x" onclick="close1(\'admP\')">Close ✕</button> ' +
+                '<button class="btn g" onclick="save()">💾 Save changes</button>' +
+                "<h3>Site & offers</h3>" +
+                f("Store name", "name") +
+                f("Offer banner (shows at top)", "banner") +
+                f("Coupon code", "coupon") +
+                f("Coupon discount %", "cpct") +
+                f("Delivery fee ₹", "fee") +
+                f("Free delivery above ₹", "free") +
+                "<h3>Products</h3>" +
+                '<div class="pr"><b>Emoji</b><b>Name</b><b>Price</b><b>MRP</b><b>Category</b><b>Image URL</b><b></b></div>';
+
+            S.products.forEach(function (p, i) {
+                var a = function (k) {
+                    return '<input value="' + p[k] +
+                        '" oninput="S.products[' + i + "]." + k + '=this.value' +
+                        (k == "price" || k == "mrp" ? "*1" : "") + '">';
+                };
+
+                h += '<div class="pr">' +
+                    a("emoji") + a("name") + a("price") +
+                    a("mrp") + a("cat") + a("img") +
+                    '<button class="btn x" onclick="S.products.splice(' +
+                    i + ',1);panel()">✕</button></div>';
+            });
+
+            h += '<button class="btn" onclick="S.products.push({id:Date.now(),cat:\'New\',emoji:\'🛒\',name:\'New product\',price:10,mrp:10,img:\'\'});panel()">+ Add product</button>';
+
+            h +=
+                "<h3>💳 Payment integration (Cashfree)</h3>" +
+                'Cashfree App ID<input value="' + P.id +
+                '" oninput="S.pay.id=this.value">' +
+                'Mode<select onchange="S.pay.mode=this.value">' +
+                '<option value="sandbox"' +
+                (P.mode == "sandbox" ? " selected" : "") +
+                '>Test (sandbox)</option>' +
+                '<option value="production"' +
+                (P.mode == "production" ? " selected" : "") +
+                '>Live (production)</option></select>' +
+                'Order function URL<input value="' + P.fn +
+                '" oninput="S.pay.fn=this.value">' +
+                'Or Cashfree payment link / form URL (no server needed)' +
+                '<input value="' + P.link +
+                '" oninput="S.pay.link=this.value">' +
+                '<p class="note">⚠ Your Secret Key must NOT be typed into a web page (anyone could steal it). Put it in Netlify → Site settings → Environment variables as CF_SECRET (App ID as CF_APP_ID, CF_ENV=PROD for live). Cash on delivery always works.</p>';
+
+            $("adm").innerHTML = h + "<h3>Orders</h3><div id=\"ol\">Loading…</div>";
+
+            (FB
+                ? fetch(FB + "/orders.json")
+                    .then(function (r) {
+                        return r.json();
+                    })
+                    .then(function (o) {
+                        return Object.keys(o || {}).map(function (k) {
+                            return o[k];
+                        }).reverse();
+                    })
+                : Promise.resolve(orders())
+            ).then(function (a) {
+                $("ol").innerHTML = a.map(function (o) {
+                    return '<div class="row"><span><b>' + o.id +
+                        "</b> – " + o.name + " (" + o.phone + ")<br>" +
+                        o.items + "<br>" + o.addr +
+                        "</span><span>" + m(o.total) + "<br>" +
+                        o.status + "</span></div>";
+                }).join("") || "No orders yet.";
+            });
+        }
+
+        function save() {
+            store();
+            site();
+            grid();
+
+            if (FB) {
+                var c = JSON.parse(JSON.stringify(S));
+
+                fetch(FB + "/store.json", {
+                    method: "PUT",
+                    body: JSON.stringify(c)
+                }).then(
+                    function () {
+                        alert("Saved & published to all customers");
+                    },
+                    function () {
+                        alert("Saved here, cloud sync failed");
+                    }
+                );
+            } else {
+                alert("Saved on this device. Add a Firebase URL (FB at top of file) to show edits to all customers.");
+            }
+        }
+
+        if (FB) {
+            fetch(FB + "/store.json")
+                .then(function (r) {
+                    return r.json();
+                })
+                .then(function (d) {
+                    if (d) {
+                        S = d;
+                        store();
+                        site();
+                        grid();
+                    }
+                })
+                .catch(function () {});
+        }
+
+        site();
+        grid();
+
+        // ---------- Realistic 3D fish ----------
+
+        var cv = $("c"), R;
+
+        try {
+            R = new THREE.WebGLRenderer({
+                canvas: cv,
+                alpha: true,
+                antialias: true
+            });
+        } catch (e) {
+            R = 0;
+        }
+
+        if (R) {
+            R.setClearColor(0, 0);
+            R.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+            var sc3 = new THREE.Scene();
+            var cam = new THREE.PerspectiveCamera(45, 1, .1, 100);
+            cam.position.z = 9;
+
+            sc3.add(new THREE.HemisphereLight(0xdff6ff, 0x0a3a5a, 1.2));
+
+            var dl = new THREE.DirectionalLight(0xffffff, 1.3);
+            dl.position.set(3, 6, 5);
+            sc3.add(dl);
+
+            var tc = document.createElement("canvas");
+            tc.width = tc.height = 64;
+
+            var g = tc.getContext("2d");
+            g.fillStyle = "#fff";
+            g.fillRect(0, 0, 64, 64);
+            g.strokeStyle = "rgba(40,60,70,.35)";
+            g.lineWidth = 2;
+
+            for (var r = 0; r < 5; r++) {
+                for (var q = 0; q < 5; q++) {
+                    g.beginPath();
+                    g.arc(q * 16 + (r % 2 ? 8 : 0), r * 13 + 13, 9, 0, Math.PI);
+                    g.stroke();
+                }
+            }
+
+            var tex = new THREE.CanvasTexture(tc);
+            tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+
+            var bg = new THREE.SphereGeometry(1, 56, 36);
+            bg.rotateZ(Math.PI / 2);
+
+            var bp = bg.attributes.position;
+            var uv = bg.attributes.uv;
+            var base = [], col = [];
+
+            var cD = new THREE.Color(0x1d5a78);
+            var cM = new THREE.Color(0xc4d3da);
+            var cB = new THREE.Color(0xfaf6ea);
+            var cc = new THREE.Color();
+
+            for (var i = 0; i < bp.count; i++) {
+                var x = bp.getX(i);
+                var y = bp.getY(i);
+                var z = bp.getZ(i);
+                var w = x > -.1 ? 1 : Math.max(.2, 1 + (x + .1) * .85);
+
+                base.push(x * 2.4, y * .8 * w, z * .4 * w);
+                uv.setXY(i, x * 2.4 * .45, y * .9);
+
+                if (y > .15) {
+                    cc.copy(cM).lerp(cD, Math.min(1, (y - .15) / .6));
+                } else if (y < -.1) {
+                    cc.copy(cM).lerp(cB, Math.min(1, (-y - .1) / .6));
+                } else {
+                    cc.copy(cM);
+                }
+
+                if (x > .62) {
+                    cc.lerp(new THREE.Color(0xe9904a), .25);
+                }
+
+                col.push(cc.r, cc.g, cc.b);
+            }
+
+            bg.setAttribute("color", new THREE.Float32BufferAttribute(col, 3));
+
+            var fish = new THREE.Group();
+
+            var body = new THREE.Mesh(
+                bg,
+                new THREE.MeshStandardMaterial({
+                    vertexColors: true,
+                    map: tex,
+                    roughness: .28,
+                    metalness: .5
+                })
+            );
+
+            fish.add(body);
+
+            var fm = new THREE.MeshStandardMaterial({
+                color: 0xe8773a,
+                roughness: .6,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: .9
+            });
+
+            function shp(fn, px, py, pz) {
+                var s = new THREE.Shape();
+                fn(s);
+
+                var mm = new THREE.Mesh(
+                    new THREE.ShapeGeometry(s),
+                    fm
+                );
+
+                mm.position.set(px, py, pz);
+                return mm;
+            }
+
+            var tail = new THREE.Group();
+
+            tail.add(shp(function (s) {
+                s.moveTo(0, .14);
+                s.quadraticCurveTo(-.5, .45, -1.05, 1.1);
+                s.quadraticCurveTo(-.65, 0, -1.05, -1.1);
+                s.quadraticCurveTo(-.5, -.45, 0, -.14);
+            }, 0, 0, 0));
+
+            fish.add(tail);
+
+            fish.add(shp(function (s) {
+                s.moveTo(1, 0);
+                s.quadraticCurveTo(.5, .95, -.3, 1.05);
+                s.quadraticCurveTo(-.6, .5, -1.3, 0);
+            }, 0, .66, 0));
+
+            fish.add(shp(function (s) {
+                s.moveTo(.2, 0);
+                s.quadraticCurveTo(-.3, -.6, -.9, -.65);
+                s.quadraticCurveTo(-.7, -.2, -.9, 0);
+            }, -.8, -.62, 0));
+
+            var pf = shp(function (s) {
+                s.moveTo(0, 0);
+                s.quadraticCurveTo(-.3, -.15, -.75, -.55);
+                s.quadraticCurveTo(-.2, -.5, .1, -.2);
+            }, 1.05, -.2, .34);
+
+            pf.rotation.set(.9, -.5, 0);
+            fish.add(pf);
+
+            var pf2 = pf.clone();
+            pf2.position.z = -.34;
+            pf2.rotation.set(-.9, .5, 0);
+            fish.add(pf2);
+
+            [1, -1].forEach(function (s) {
+                var e = new THREE.Mesh(
+                    new THREE.SphereGeometry(.17, 20, 16),
+                    new THREE.MeshStandardMaterial({
+                        color: 0xf3d36b,
+                        roughness: .2
+                    })
+                );
+
+                e.position.set(1.78, .2, .27 * s);
+                fish.add(e);
+
+                var p = new THREE.Mesh(
+                    new THREE.SphereGeometry(.1, 16, 12),
+                    new THREE.MeshStandardMaterial({
+                        color: 0x050505,
+                        roughness: .1
+                    })
+                );
+
+                p.position.set(1.86, .2, .33 * s);
+                fish.add(p);
+            });
+
+            sc3.add(fish);
+
+            var N = 140;
+            var pp = new Float32Array(N * 3);
+            var pg = new THREE.BufferGeometry();
+
+            for (var i = 0; i < N * 3; i++) {
+                pp[i] = (Math.random() - .5) * (i % 3 == 1 ? 10 : 16);
+            }
+
+            pg.setAttribute("position", new THREE.BufferAttribute(pp, 3));
+
+            sc3.add(new THREE.Points(
+                pg,
+                new THREE.PointsMaterial({
+                    color: 0xffffff,
+                    size: .09,
+                    transparent: true,
+                    opacity: .6
+                })
+            ));
+
+            function rs() {
+                R.setSize(innerWidth, innerHeight, false);
+                cam.aspect = innerWidth / innerHeight;
+                cam.updateProjectionMatrix();
+            }
+
+            addEventListener("resize", rs);
+            rs();
+
+            var cT = [127, 214, 255];
+            var cBt = [2, 28, 58];
+            var sy = 0, sm = 0, lx = 0, dir = 1, hd = 0;
+            var t0 = performance.now();
+
+            addEventListener("scroll", function () {
+                sy = scrollY;
+            });
+
+            function mx(a, b, t) {
+                return Math.round(a + (b - a) * t);
+            }
+
+            function loop(now) {
+                var t = (now - t0) / 1000;
+                var vh = 2 * Math.tan(22.5 * Math.PI / 180) * 9;
+                var vw = vh * cam.aspect;
+
+                sm += (sy - sm) * .08;
+
+                var d = Math.min(Math.max(sm / innerHeight, 0), 1);
+                d = d * d * (3 - 2 * d);
+
+                var mxs = Math.max(1, document.body.scrollHeight - innerHeight);
+                var fr = Math.min(1, sm / mxs);
+                var k = Math.min(1, sm / (innerHeight * 1.6));
+                var k2 = Math.min(1, k + .25);
+
+                document.body.style.background =
+                    "linear-gradient(rgb(" +
+                    mx(cT[0], cBt[0], k) + "," +
+                    mx(cT[1], cBt[1], k) + "," +
+                    mx(cT[2], cBt[2], k) + "),rgb(" +
+                    mx(cT[0], cBt[0], k2) + "," +
+                    mx(cT[1], cBt[1], k2) + "," +
+                    mx(cT[2], cBt[2], k2) + "))";
+
+                var X = Math.sin(t * .6) * vw * .1 * (1 - d) +
+                    Math.sin(fr * Math.PI * 14 + t * .25) * vw * .4 * d;
+
+                var Y = Math.sin(t * 1.1) * .25 * (1 - d) +
+                    (-vh * .37 + Math.sin(t * 2) * .08) * d;
+
+                var vx = X - lx;
+
+                if (Math.abs(vx) > .002) {
+                    dir = vx > 0 ? 1 : -1;
+                }
+
+                lx = X;
+                hd += ((dir > 0 ? 0 : Math.PI) - hd) * .07;
+
+                fish.position.set(X, Y, (1 - d) * 1.5);
+                fish.scale.setScalar(.62 * (1 - d) + .2 * d);
+                fish.rotation.y = hd + .5;
+                fish.rotation.z = -Math.sin(d * Math.PI) * .8 +
+                    Math.sin(t * 1.5) * .03;
+
+                var sp = 5 + Math.abs(vx) * 60;
+
+                for (var i = 0; i < bp.count; i++) {
+                    var bx = base[i * 3];
+                    var a = Math.pow((2.4 - bx) / 4.8, 2);
+
+                    bp.setXYZ(
+                        i,
+                        bx,
+                        base[i * 3 + 1],
+                        base[i * 3 + 2] +
+                            Math.sin(t * sp - bx * 1.3) * .34 * a
+                    );
+                }
+
+                bp.needsUpdate = true;
+                body.geometry.computeVertexNormals();
+
+                tail.position.set(-2.3, 0, Math.sin(t * sp + 2.99) * .34 * .98);
+                tail.rotation.y = Math.cos(t * sp + 2.99) * .5;
+
+                var v = .01 + Math.min(.08, Math.abs(sy - sm) * .0008);
+
+                for (var i = 0; i < N; i++) {
+                    pp[i * 3 + 1] += v + (i % 5) * .002;
+
+                    if (pp[i * 3 + 1] > 5) {
+                        pp[i * 3 + 1] = -5;
+                    }
+                }
+
+                pg.attributes.position.needsUpdate = true;
+
+                R.render(sc3, cam);
+                requestAnimationFrame(loop);
+            }
+
+            requestAnimationFrame(loop);
+        }
+    </script>
+</body>
+</html>
